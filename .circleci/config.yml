@@ -39,7 +39,7 @@ workflows:
   test_build:
     jobs:
       - display_system_info
-      - test
+      - test:
           requires:
             - display_system_info
       - build:
