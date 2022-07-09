@@ -1,9 +1,16 @@
 version: 2.1
 
 jobs: # a basic unit of work in a run
+  display_system_info:
+    macos:
+      xcode: 13.4.1 # indicate our selected version of Xcode
+    steps: # a series of commands to run
+      - run:
+          name: Display system information
+          command: system_profiler SPHardwareDataType
   test: # your job name
     macos:
-      xcode: 11.3.0 # indicate our selected version of Xcode
+      xcode: 13.4.1 # indicate our selected version of Xcode
     steps: # a series of commands to run
       - checkout  # pull down code from your version control system.
       - run:
@@ -12,7 +19,7 @@ jobs: # a basic unit of work in a run
 
   build: 
     macos:
-      xcode: 11.3.0 # indicate our selected version of Xcode
+      xcode: 13.4.1 # indicate our selected version of Xcode
     steps: 
       - checkout
       - run:
@@ -31,7 +38,10 @@ workflows:
   version: 2
   test_build:
     jobs:
+      - display_system_info
       - test
+          requires:
+            - display_system_info
       - build:
           requires:
             - test
